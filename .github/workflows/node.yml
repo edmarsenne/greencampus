@@ -1,0 +1,39 @@
+name: CI - GreenCampus
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Passo 1: baixar o código
+      - name: 📥 Checkout do repositório
+        uses: actions/checkout@v3
+
+      # Passo 2: instalar o Node.js
+      - name: ⚙️ Configurar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      # Passo 3: instalar dependências do backend
+      - name: 📦 Instalar dependências do backend
+        run: |
+          cd backend
+          npm install
+
+      # Passo 4: instalar dependências do frontend
+      - name: 📦 Instalar dependências do frontend
+        run: |
+          cd frontend/greencampus-ui
+          npm install
+
+      # Passo 5: verificar build do frontend
+      - name: 🧪 Testar build do frontend
+        run: |
+          cd frontend/greencampus-ui
+          npm run build
+
+      # Passo 6: teste simbólico
+      - name: ✅ Finalizar pipeline
+        run: echo "Pipeline executado com sucesso!"
